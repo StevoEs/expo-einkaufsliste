@@ -1,25 +1,24 @@
 import { FlatList } from 'react-native-gesture-handler';
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useCallback, useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from 'expo-router';
 
 const Home = () => {
-  const produkte = [
-    {
-      "name": "Milch",
-      "preis": 1,
-      "menge": 1
-    },
-    {
-      "name": "Brot",
-      "preis": 1.99,
-      "menge": 1
-    },
-    {
-      "name": "Quark",
-      "preis": 1.09,
-      "menge": 1
-    }
-  ];
+  const [produkte, setProdukte] = useState([]);
+
+
+  useFocusEffect(
+    useCallback( () => {
+      AsyncStorage.getItem('produkte')
+      .then( (existingProduktsString) => {
+        if(existingProduktsString) {
+          setProdukte(JSON.parse(existingProduktsString));
+        }
+      });
+    }, [])
+  );
+
 
   const renderItem = ({ item }) => 
     <View style={styles.produktListe}>
