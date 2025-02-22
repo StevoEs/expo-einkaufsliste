@@ -97,10 +97,10 @@ const Home = () => {
         </Text>
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={() => handleEdit(index)} style={styles.bearbeitenButton}>
-            <Text>Bearbeiten</Text>
+            <Text style={styles.buttonText}>Bearbeiten</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => handleDelete(index)} style={styles.loeschenButton}>
-            <Text>Löschen</Text>
+            <Text style={styles.buttonText}>Löschen</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -118,6 +118,7 @@ const Home = () => {
         onChangeText={setName} 
       />
 
+      <Text>Preis</Text>
       <TextInput
         keyboardType="numeric"
         style={styles.input}
@@ -125,6 +126,7 @@ const Home = () => {
         onChangeText={setPreis}
       />
 
+      <Text>Menge</Text>
       <TextInput
         keyboardType="numeric"
         style={styles.input}
@@ -135,9 +137,10 @@ const Home = () => {
       <Button title={bearbeiteIndex !== null ? 'Änderungen speichern' : 'Produkt hinzufügen'} onPress={handleSubmit} />
 
       {/* Produktliste unter dem Eingabeformular */}
-      <FlatList data={produkte} renderItem={renderItem} keyExtractor={(item, index) => index.toString()} />
+      <FlatList style={styles.listContainer} data={produkte} renderItem={renderItem} keyExtractor={(item, index) => index.toString()} />
 
-      <Text style={styles.gesamtSumme}>Gesamtsumme aller Produkte: {gesamtSumme.toFixed(2)}€</Text>
+      <Text style={styles.gesamtSumme}>Gesamtsumme aller Produkte:</Text> 
+      <Text>{gesamtSumme.toFixed(2)}€</Text>
     </View>
   );
 };
@@ -148,18 +151,23 @@ export default Home
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
+        width: '80%',
+        alignSelf: 'center',
+        justifyContent: 'center',
         alignItems: 'center',
+        padding: 20,
         backgroundColor: 'white',
     },
     title: {
-      fontSize: 32,
+      fontSize: 16,
       fontWeight: 'bold',
       textDecorationLine: 'underline'
     },
+    listContainer: {
+      width: '100%',
+    },
     produktListe: {
       padding: 15,
-      width: 250,
       alignItems: 'center',
       borderBottomWidth: 1,
       borderBottomColor: '#ccc'
@@ -170,7 +178,7 @@ const styles = StyleSheet.create({
       fontSize: 14,
       borderColor: 'grey',
       borderWidth: 1,
-      marginBottom: 10,
+      marginBottom: 6,
       padding: 20,
       paddingVertical: 5,
     },
@@ -187,13 +195,21 @@ const styles = StyleSheet.create({
 
     },
     buttonContainer: {
-      
+      flexDirection: 'row',
+      justifyContent: 'space-between'
     },
     bearbeitenButton: {
-
+      margin: 4,
+      padding: 8,
+      backgroundColor: 'rgba(33, 150, 243, 1)',
     },
     loeschenButton: {
-
+      margin: 4,
+      padding: 8,
+      backgroundColor: 'rgba(33, 150, 243, 1)',
+    },
+    buttonText: {
+      color: 'white',
     },
     gesamtSumme: {
 
