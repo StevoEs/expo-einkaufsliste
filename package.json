@@ -1,5 +1,5 @@
 {
-  "name": "my-tutorial",
+  "name": "einkaufsliste",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
