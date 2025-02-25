@@ -1,0 +1,6 @@
+/home/stefan/Android/Sdk/cmake/3.22.1/bin/ninja \
+  -C \
+  /home/stefan/dev/Expo/expo-tutorial/my-tutorial/android/app/.cxx/RelWithDebInfo/3t1qr523/x86_64 \
+  appmodules \
+  react_codegen_rnscreens \
+  react_codegen_safeareacontext

@@ -1,0 +1,1 @@
+/home/stefan/dev/Expo/expo-tutorial/my-tutorial/android/app/build/intermediates/cxx/RelWithDebInfo/3t1qr523/obj/arm64-v8a
