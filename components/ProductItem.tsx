@@ -4,7 +4,6 @@ import { Ionicons } from '@expo/vector-icons'
 import Checkbox from 'expo-checkbox';
 import { Produkt } from '../src/types';
 
-
 interface ProductItemProps {
   item: Produkt;
   onEdit: () => void;
@@ -17,6 +16,11 @@ const ProductItem: React.FC<ProductItemProps> = ({ item, onEdit, onDelete }) => 
 
   const produktSumme = Number(item.preis) * Number(item.menge);
 
+  const handleOptionPress = (action: () => void) => {
+    action();
+    setShowOptions(false);
+  };
+
   return (
     <View style={styles.produktListe}>
       <View style={styles.headerRow}>
@@ -26,41 +30,45 @@ const ProductItem: React.FC<ProductItemProps> = ({ item, onEdit, onDelete }) => 
           style={styles.checkbox}
         />
         <Text style={[styles.produktName, isChecked && styles.checked]}>
+          <Text style={styles.produktMenge}>{item.menge}x </Text>
           {item.name}
         </Text>
-        {/* Icon, das beim Anklicken ein Menü öffnet */}
-        <TouchableOpacity onPress={() => setShowOptions(!showOptions)}>
+        <TouchableOpacity 
+          onPress={() => setShowOptions(!showOptions)}
+          style={styles.optionsButton}
+        >
           <Ionicons name="ellipsis-vertical" size={24} color="black" />
         </TouchableOpacity>
       </View>
 
-      {/* Menü mit den Optionen, das bei Klick auf das Icon eingeblendet wird */}
       {showOptions && (
         <View style={styles.optionsContainer}>
-          <TouchableOpacity onPress={onEdit} style={styles.optionButton}>
+          <TouchableOpacity
+            onPress={() => handleOptionPress(onEdit)}
+            style={[styles.optionButton, styles.editButton]}
+          >
             <Text style={styles.optionText}>Bearbeiten</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={onDelete} style={styles.optionButton}>
+          <TouchableOpacity
+            onPress={() => handleOptionPress(onDelete)}
+            style={[styles.optionButton, styles.deleteButton]}
+          >
             <Text style={styles.optionText}>Löschen</Text>
           </TouchableOpacity>
         </View>
       )}
 
-      <Text style={styles.produktPreis}>Einzelpreis: {item.preis}€</Text>
-      <Text style={styles.produktMenge}>Menge: {item.menge}</Text>
+      <Text style={styles.produktPreis}>Einzelpreis: {item.preis.toFixed(2)}€</Text>
       <Text style={styles.produktSumme}>Gesamt: {produktSumme.toFixed(2)}€</Text>
     </View>
   );
 };
 
-export default ProductItem;
-
-
 const styles = StyleSheet.create({
   produktListe: {
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc'
+    borderBottomColor: '#ccc',
   },
   headerRow: {
     flexDirection: 'row',
@@ -75,53 +83,44 @@ const styles = StyleSheet.create({
     fontSize: 16,
     flex: 1,
   },
-  // Wird angewendet, wenn das Produkt abgehakt wurde
   checked: {
     textDecorationLine: 'line-through',
     color: 'gray',
   },
+  optionsButton: {
+    padding: 8,
+  },
   optionsContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: 5,
+    gap: 10,
+    marginVertical: 5,
   },
   optionButton: {
-    marginHorizontal: 5,
-    padding: 8,
-    backgroundColor: 'rgba(33, 150, 243, 1)',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     borderRadius: 5,
+  },
+  editButton: {
+    backgroundColor: '#2196F3',
+  },
+  deleteButton: {
+    backgroundColor: '#ff4444',
   },
   optionText: {
     color: 'white',
   },
   produktPreis: {
-    // Weitere Styles nach Bedarf
+    color: '#666',
+    fontSize: 14,
   },
   produktMenge: {
-    // Weitere Styles nach Bedarf
+    color: '#666',
   },
   produktSumme: {
-    // Weitere Styles nach Bedarf
+    fontWeight: 'bold',
+    marginTop: 4,
   },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 5,
-  },
-  bearbeitenButton: {
-    margin: 4,
-    padding: 8,
-    backgroundColor: 'rgba(33, 150, 243, 1)',
-  },
-  loeschenButton: {
-    margin: 4,
-    padding: 8,
-    backgroundColor: 'rgba(33, 150, 243, 1)',
-  },
-  buttonText: {
-    color: 'white',
-  },
-  gesamtSumme: {
-    // Weitere Styles nach Bedarf
-  },
-})
+});
+
+export default ProductItem;
