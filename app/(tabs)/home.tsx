@@ -4,64 +4,74 @@ import ProductList from '../../components/ProductList';
 import TotalSum from '../../components/TotalSum';
 import { loadProdukte, saveProdukte } from '../../storage/storage';
 import ProductForm from '@/components/ProductForm';
-
-type Produkt = {
-  name: string;
-  preis: number;
-  menge: number;
-};
+import { Produkt } from '../../src/types';
 
 const Home = () => {
   const [produkte, setProdukte] = useState<Produkt[]>([]);
-  const [bearbeiteIndex, setBearbeiteIndex] = useState<number | null>(null);
-
+  const [editingProduct, setEditingProduct] = useState<Produkt | null>(null);
 
   useEffect(() => {
     async function fetchProdukte() {
-      setProdukte(await loadProdukte());
+      const loaded = await loadProdukte();
+      // Filtere ungültige Einträge raus
+      const validProducts = loaded.filter((p): p is Produkt => p !== null);
+      setProdukte(validProducts);
     }
     fetchProdukte();
   }, []);
 
-  const handleSubmit = async (produkt: Produkt) => {
-    let newProdukte = [...produkte];
-    if (bearbeiteIndex !== null) {
-      newProdukte[bearbeiteIndex] = produkt;
-      setBearbeiteIndex(null);
+  const handleSubmit = async (produkt: Omit<Produkt, 'id'>) => {
+    if (editingProduct) {
+      // Produkt bearbeiten – anhand der eindeutigen ID
+      const updatedProducts = produkte.map((p) =>
+        p.id === editingProduct.id ? { ...produkt, id: editingProduct.id } : p
+      );
+      setProdukte(updatedProducts);
+      await saveProdukte(updatedProducts);
+      setEditingProduct(null);
     } else {
-      newProdukte.push(produkt);
+      // Neues Produkt hinzufügen
+      const newProdukt: Produkt = { ...produkt, id: Date.now().toString() };
+      const updatedProducts = [...produkte, newProdukt];
+      setProdukte(updatedProducts);
+      await saveProdukte(updatedProducts);
     }
-
-    setProdukte(newProdukte);
-    await saveProdukte(newProdukte);
   };
 
-  const handleDelete = async (index: number) => {
-    const newProdukte = produkte.filter((_, i) => i !== index);
-    setProdukte(newProdukte);
-    await saveProdukte(newProdukte);
+  const handleEdit = (id: string) => {
+    const productToEdit = produkte.find((p) => p.id === id);
+    if (productToEdit) {
+      setEditingProduct(productToEdit);
+    }
   };
 
-  const handleEdit = (index: number) => {
-    setBearbeiteIndex(index);
+  const handleDelete = (id: string) => {
+    const updatedProducts = produkte.filter((p) => p.id !== id);
+    setProdukte(updatedProducts);
+    saveProdukte(updatedProducts);
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Einkaufsliste</Text>
-      <ProductForm onSubmit={handleSubmit} produkt={bearbeiteIndex !== null ? produkte[bearbeiteIndex] : null} />
-      <ProductList produkte={produkte} onEdit={handleEdit} onDelete={handleDelete} />
+      <ProductForm onSubmit={handleSubmit} produkt={editingProduct} />
+      <ProductList
+        produkte={produkte}
+        onEdit={(id: string) => handleEdit(id)}
+        onDelete={(id: string) => handleDelete(id)}
+      />
       <TotalSum produkte={produkte} />
     </View>
   );
 };
+
+
+
 export default Home;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        width: '80%',
-        alignSelf: 'center',
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
@@ -72,5 +82,5 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       textDecorationLine: 'underline'
     }
-    
+
   })

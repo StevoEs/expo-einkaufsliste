@@ -1,40 +1,88 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import { Produkt } from '../src/types';
 
-const ProductForm = ({ onSubmit, produkt }) => {
-  const [name, setName] = useState('');
-  const [preis, setPreis] = useState('');
-  const [menge, setMenge] = useState('');
+export interface ProductFormProps {
+  onSubmit: (produkt: Omit<Produkt, 'id'>) => void;
+  produkt?: Produkt | null;
+}
 
+
+const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, produkt }) => {
+  const [name, setName] = useState(produkt ? produkt.name : '');
+  const [preis, setPreis] = useState(produkt ? produkt.preis.toString() : '');
+  const [menge, setMenge] = useState(produkt ? produkt.menge.toString() : '1');
+
+  // Refs für die Input-Felder
+  const nameInputRef = useRef<TextInput>(null);
+  const preisInputRef = useRef<TextInput>(null);
+  const mengeInputRef = useRef<TextInput>(null);
+
+  // Aktualisiere die Felder, wenn sich die produkt-Prop ändert
   useEffect(() => {
     if (produkt) {
       setName(produkt.name);
       setPreis(produkt.preis.toString());
       setMenge(produkt.menge.toString());
+    } else {
+      setName('');
+      setPreis('');
+      setMenge('1');
     }
   }, [produkt]);
 
   const handleSubmit = () => {
     if (name && preis && menge) {
-      onSubmit({ name, preis: parseFloat(preis), menge: parseInt(menge, 10) });
+      onSubmit({
+        name,
+        preis: parseFloat(preis),
+        menge: parseInt(menge, 10),
+      });
+      // Felder zurücksetzen
       setName('');
       setPreis('');
-      setMenge('');
+      setMenge('1');
+      // Fokus auf Namensfeld setzen
+      nameInputRef.current?.focus();
     } else {
       Alert.alert('Bitte alle Felder ausfüllen.');
     }
   };
 
+
   return (
     <View>
       <Text>Name</Text>
-      <TextInput style={styles.input} value={name} onChangeText={setName} />
+      <TextInput 
+        ref={nameInputRef}
+        style={styles.input} 
+        value={name} 
+        onChangeText={setName} 
+        returnKeyType="next"
+        onSubmitEditing={() => preisInputRef.current?.focus()}
+        />
 
       <Text>Preis</Text>
-      <TextInput keyboardType="numeric" style={styles.input} value={preis} onChangeText={setPreis} />
+      <TextInput
+        ref={preisInputRef}
+        keyboardType="numeric"
+        style={styles.input}
+        value={preis}
+        onChangeText={setPreis}
+        returnKeyType="next"
+        onSubmitEditing={() => mengeInputRef.current?.focus()}
+      />
 
       <Text>Menge</Text>
-      <TextInput keyboardType="numeric" style={styles.input} value={menge} onChangeText={setMenge} />
+      <TextInput
+        ref={mengeInputRef}
+        keyboardType="numeric"
+        style={styles.input}
+        value={menge}
+        onChangeText={setMenge}
+        returnKeyType="done"
+        onSubmitEditing={handleSubmit}
+      />
 
       <Button title="Speichern" onPress={handleSubmit} />
     </View>

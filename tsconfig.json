@@ -4,6 +4,7 @@
     "noImplicitAny": false,
     "strict": true,
     "paths": {
+      "@types/*": ["./src/types/*"],
       "@/*": [
         "./*"
       ]

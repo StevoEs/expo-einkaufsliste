@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Einkaufsliste",
-    "slug": "stevos-einkaufsliste",
+    "slug": "stevo-einkaufsliste",
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -9,13 +9,15 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.stevoes777.stevoseinkaufsliste"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.stevoes777.stevoseinkaufsliste"
     },
     "web": {
       "bundler": "metro",
@@ -42,7 +44,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "4a06976f-e9fe-4315-8078-f8a4a5bb69d4"
+        "projectId": "bf61fbac-e5b2-4dd0-b189-a0dd05517376"
       }
     },
     "owner": "stevoes777"

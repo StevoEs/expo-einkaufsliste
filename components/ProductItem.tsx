@@ -1,21 +1,29 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Produkt } from '../src/types';
 
-const ProductItem = ({ item, index, onEdit, onDelete }) => {
+
+interface ProductItemProps {
+  item: Produkt;
+  onEdit: () => void;
+  onDelete: () => void;
+}
+
+const ProductItem: React.FC<ProductItemProps> = ({ item, onEdit, onDelete }) => {
   const produktSumme = Number(item.preis) * Number(item.menge);
 
   return (
     <View style={styles.produktListe}>
       <Text style={styles.produktName}>{item.name}</Text>
-      <Text>Einzelpreis: {item.preis}€</Text>
-      <Text>Menge: {item.menge}</Text>
-      <Text>Gesamt: {produktSumme.toFixed(2)}€</Text>
+      <Text style={styles.produktPreis}>Einzelpreis: {item.preis}€</Text>
+      <Text style={styles.produktMenge}>Menge: {item.menge}</Text>
+      <Text style={styles.produktSumme}>Gesamt: {produktSumme.toFixed(2)}€</Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={() => onEdit(index)} style={styles.bearbeitenButton}>
-          <Text style={styles.buttonText}>Bearbeiten</Text>
+        <TouchableOpacity onPress={onEdit} style={styles.bearbeitenButton}>
+          <Text>Bearbeiten</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => onDelete(index)} style={styles.loeschenButton}>
-          <Text style={styles.buttonText}>Löschen</Text>
+        <TouchableOpacity onPress={onDelete} style={styles.loeschenButton}>
+          <Text>Löschen</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -1,12 +1,22 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Produkt } from '../src/types';
 
-const TotalSum = ({ produkte }) => {
-  const gesamtSumme = produkte.reduce((acc, item) => acc + Number(item.preis) * Number(item.menge), 0);
+interface TotalSumProps {
+  produkte: (Produkt | null)[];
+}
+
+const TotalSum: React.FC<TotalSumProps> = ({ produkte }) => {
+  // Filtere alle null-Elemente heraus
+  const validProdukte = produkte.filter((item) => item !== null) as Produkt[];
+  const gesamtSumme = validProdukte.reduce(
+    (acc, item) => acc + Number(item.preis) * Number(item.menge),
+    0
+  );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.gesamtSumme}>Gesamtsumme: {gesamtSumme.toFixed(2)}€</Text>
+      <Text style={styles.sumText}>Gesamtsumme: {gesamtSumme.toFixed(2)}€</Text>
     </View>
   );
 };
@@ -18,8 +28,11 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 10
   },
-    gesamtSumme: {
-      fontWeight: 'bold',
-       fontSize: 16
-    }
+  gesamtSumme: {
+    fontWeight: 'bold',
+    fontSize: 16
+  },
+  sumText: {
+
+  }
   })
