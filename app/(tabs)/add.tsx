@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
     },
     title: {
-      fontSize: 32,
+      fontSize: 16,
       fontWeight: 'bold',
       textDecorationLine: 'underline'
     },

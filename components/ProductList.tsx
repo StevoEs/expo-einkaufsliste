@@ -11,6 +11,7 @@ interface ProductListProps {
 
 const ProductList: React.FC<ProductListProps> = ({ produkte, onEdit, onDelete }) => (
   <FlatList
+    style={styles.listContainer}
     data={produkte}
     renderItem={({ item }) => (
       <ProductItem
@@ -28,7 +29,8 @@ export default ProductList;
 
 const styles = StyleSheet.create({
     listContainer: {
-      width: 300,
+      width: '100%',
+      maxWidth: 500,
     },
 
   })
