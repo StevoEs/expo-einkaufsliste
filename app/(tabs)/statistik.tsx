@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const Profile = () => {
+const Statistik = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Statistiken</Text>
@@ -10,7 +10,7 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default Statistik
 
 const styles = StyleSheet.create({
   container: {

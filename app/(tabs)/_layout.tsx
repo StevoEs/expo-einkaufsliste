@@ -8,7 +8,7 @@ const TabsLayout = () => {
     <Tabs>
         <Tabs.Screen name='home' options={{
             tabBarIcon: ({ color, size}) => (
-                <Ionicons name="home" color={color} size={size}></Ionicons>
+                <Ionicons style={styles.container} name="home" color={color} size={size}></Ionicons>
             ),
         }}></Tabs.Screen>
         <Tabs.Screen name='add' options={{
@@ -16,7 +16,7 @@ const TabsLayout = () => {
                 <Ionicons name="book" color={color} size={size}></Ionicons>
             ),
         }}></Tabs.Screen>
-        <Tabs.Screen name='profile' options={{
+        <Tabs.Screen name='statistik' options={{
             tabBarIcon: ({ color, size}) => (
                 <Ionicons name="information-circle-outline" color={color} size={size}></Ionicons>
             ),
@@ -27,4 +27,7 @@ const TabsLayout = () => {
 
 export default TabsLayout
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+    }
+})
