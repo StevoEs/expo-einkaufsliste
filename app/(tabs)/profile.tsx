@@ -4,7 +4,8 @@ import React from 'react'
 const Profile = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Mein Profil</Text>
+      <Text style={styles.title}>Statistiken</Text>
+      <Text style={styles.text}>hier werden Statistiken über die vergangenen Einkäufe angezeigt.</Text>
     </View>
   )
 }
@@ -19,8 +20,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   title: {
-    fontSize: 32,
+    fontSize: 16,
     fontWeight: 'bold',
     textDecorationLine: 'underline'
+  },
+  text: {
+
   }
 })

@@ -1,26 +1,24 @@
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import ProductForm from '../../components/ProductForm';
+import ProductList from '../../components/ProductList';
+import TotalSum from '../../components/TotalSum';
+import { loadProdukte, saveProdukte } from '../../storage/storage';
+
 
 const Add = () => {
+
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Hinzufügen</Text>
+      <Text style={styles.title}>Archiv</Text>
+      <Text style={styles.text}>Hier werden Einkaufslisten abgespeichert und Archiviert</Text>
 
-      <Text>Name</Text>
-      <TextInput style={styles.input}></TextInput>
-
-      <Text>Preis</Text>
-      <TextInput keyboardType='numeric' style={styles.input}></TextInput>
-
-      <Text>Menge</Text>
-      <TextInput keyboardType='numeric' style={styles.input}></TextInput>
-
-      <Button title='Produkt Hinzufügen'></Button>
     </View>
-  )
-}
+  );
+};
 
-export default Add
+export default Add;
 
 const styles = StyleSheet.create({
     container: {
@@ -30,16 +28,11 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
     },
     title: {
-      fontSize: 32,
+      fontSize: 16,
       fontWeight: 'bold',
       textDecorationLine: 'underline'
     },
-    input: {
-      height: 40,
-      minWidth: 150,
-      borderColor: 'grey',
-      borderWidth: 1,
-      marginBottom: 10,
-      paddingLeft: 10,
+    text: {
+      
     }
   })
