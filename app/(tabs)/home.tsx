@@ -4,7 +4,7 @@ import ProductList from '../../components/ProductList';
 import TotalSum from '../../components/TotalSum';
 import { loadProdukte, saveProdukte } from '../../storage/storage';
 import ProductForm from '@/components/ProductForm';
-import { Produkt } from '../../src/types';
+import { Produkt } from '../../src/types/Produkt';
 
 const Home = () => {
   const [produkte, setProdukte] = useState<Produkt[]>([]);
@@ -13,7 +13,6 @@ const Home = () => {
   useEffect(() => {
     async function fetchProdukte() {
       const loaded = await loadProdukte();
-      // Filtere ungültige Einträge raus
       const validProducts = loaded.filter((p): p is Produkt => p !== null);
       setProdukte(validProducts);
     }
@@ -22,7 +21,6 @@ const Home = () => {
 
   const handleSubmit = async (produkt: Omit<Produkt, 'id'>) => {
     if (editingProduct) {
-      // Produkt bearbeiten – anhand der eindeutigen ID
       const updatedProducts = produkte.map((p) =>
         p.id === editingProduct.id ? { ...produkt, id: editingProduct.id } : p
       );
@@ -30,7 +28,6 @@ const Home = () => {
       await saveProdukte(updatedProducts);
       setEditingProduct(null);
     } else {
-      // Neues Produkt hinzufügen
       const newProdukt: Produkt = { ...produkt, id: Date.now().toString() };
       const updatedProducts = [...produkte, newProdukt];
       setProdukte(updatedProducts);
@@ -57,30 +54,27 @@ const Home = () => {
       <ProductForm onSubmit={handleSubmit} produkt={editingProduct} />
       <ProductList
         produkte={produkte}
-        onEdit={(id: string) => handleEdit(id)}
-        onDelete={(id: string) => handleDelete(id)}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
       />
       <TotalSum produkte={produkte} />
     </View>
   );
 };
 
-
-
 export default Home;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 20,
-        backgroundColor: 'white',
-    },
-    title: {
-      fontSize: 16,
-      fontWeight: 'bold',
-      textDecorationLine: 'underline'
-    }
-
-  })
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: 'white',
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
+  },
+});

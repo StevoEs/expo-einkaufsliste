@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
-import { Produkt } from '../src/types';
+import { Produkt } from '../src/types/Produkt';
 
 export interface ProductFormProps {
   onSubmit: (produkt: Omit<Produkt, 'id'>) => void;
