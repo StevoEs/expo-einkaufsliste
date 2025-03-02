@@ -56,6 +56,7 @@ const Home = () => {
         produkte={produkte}
         onEdit={handleEdit}
         onDelete={handleDelete}
+        setProdukte={setProdukte}
       />
       <TotalSum produkte={produkte} />
     </View>

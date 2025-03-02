@@ -1,74 +1,39 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import Checkbox from 'expo-checkbox';
-import { ProductItemProps } from '../src/types/productTypes';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View, Text, StyleSheet } from 'react-native';
+import { Produkt } from '../src/types/productTypes';
 
+interface ProductItemProps {
+  item: Produkt;
+  onEdit: () => void;
+  onDelete: () => void;
+}
 
-
-const ProductItem: React.FC<ProductItemProps> = React.memo(({ item, onEdit, onDelete }) => {
-  const [isChecked, setIsChecked] = React.useState(false);
-  const [showOptions, setShowOptions] = React.useState(false);
-
-  const produktSumme = Number(item.preis) * Number(item.menge);
-
-  const handleOptionPress = (action: () => void) => {
-    action();
-    setShowOptions(false);
-  };
-
+const ProductItem: React.FC<ProductItemProps> = ({ item, onEdit, onDelete }) => {
   return (
-    <View style={styles.produktListe}>
-      <View style={styles.headerRow}>
-        <Checkbox
-          value={isChecked}
-          onValueChange={setIsChecked}
-          style={styles.checkbox}
-        />
-        <Text style={styles.produktName}>
-          <Text style={styles.produktMenge}>{item.menge}x </Text>
-          {item.name}
-        </Text>
-        <TouchableOpacity
-          onPress={() => setShowOptions(!showOptions)}
-          style={styles.optionsButton}
-        >
-          <Ionicons name="ellipsis-vertical" size={24} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.dragHandle}>
-          <Icon name="bars" size={20} />
-        </TouchableOpacity>
-      </View>
-
-      {showOptions && (
-        <View style={styles.optionsContainer}>
-          <TouchableOpacity
-            onPress={() => handleOptionPress(() => onEdit(item.id))}
-            style={[styles.optionButton, styles.editButton]}
-          >
-            <Text style={styles.optionText}>Bearbeiten</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleOptionPress(() => onDelete(item.id))}
-            style={[styles.optionButton, styles.deleteButton]}
-          >
-            <Text style={styles.optionText}>Löschen</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-
-      <Text style={styles.produktPreis}>Einzelpreis: {item.preis.toFixed(2)}€</Text>
-      <Text style={styles.produktSumme}>Gesamt: {produktSumme.toFixed(2)}€</Text>
+    <View style={styles.container}>
+      <Text>{item.name || 'Kein Name'}</Text>
     </View>
   );
-});
+};
+
 
 const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    backgroundColor: '#f9f9f9',
+    marginBottom: 8,
+  },
   produktListe: {
     padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+  },
+  itemContainer: {
+    // Beispielwerte:
+    padding: 10,
+    backgroundColor: '#fff',
   },
   headerRow: {
     flexDirection: 'row',

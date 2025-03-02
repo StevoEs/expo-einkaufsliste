@@ -1,13 +1,16 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Link } from 'expo-router'
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const Index = () => {
   return (
-    <View style={styles.container}>
+    //<View style={styles.container}>
+    <GestureHandlerRootView  style={styles.container}>
       <Text style={styles.headline}>Startseite</Text>
       <Link style={styles.link} href={"/(tabs)/home"}>Home</Link>
-    </View>
+    {/* //</View> */}
+  </GestureHandlerRootView>
   )
 }
 
